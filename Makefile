@@ -55,3 +55,7 @@ destroy:
 ## ルーティング一覧表示
 route:
 	docker compose exec app php artisan route:list
+
+## 自分で新しく追加：ドッカーのコンテナのｂashの中にログイン
+app:
+	docker compose exec app bash
