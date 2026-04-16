@@ -7,10 +7,12 @@ import TextareaForm from "./TextareaForm.vue";
 <template>
     <div class="mx-auto w-full max-w-sm md:max-w-xl lg:max-w-3xl p-4 bg-white rounded-xl shadow hover:shadow-lg transition duration-300 border-[1px] border-primary-100">
         <div class="flex items-center gap-x-2 mt-2">
-            <PlusSvg class="w-8 h-8"/>
+            <PlusSvg class="w-8 h-8 text-primary-500"/>
             <h3 class="text-2xl font-bold">新規メモ</h3>
         </div>
-        <TextareaForm />
+        <div class="p-2">
+            <TextareaForm />
+        </div>
     </div>
 </template>
 
