@@ -15,6 +15,7 @@ const saveMemo = async () => {
         });
 
         console.log('保存成功', response.data);
+        text.value ='';
     } catch (error) {
         console.error('保存に失敗', error);
     }
@@ -25,7 +26,7 @@ const saveMemo = async () => {
     <div class="flex flex-col justify-center mx-auto w-full">
         <textarea
             v-model="text"
-            class="w-full p-4 mt-4 border border-gray-300 rounded-xl outline-none
+            class="w-full p-4 border border-gray-300 rounded-xl outline-none
             focus:border-primary-500 focus:ring-2 focus:ring-primary-500
             transition-all duration-300 min-h-[150px]"
             rows="4"
