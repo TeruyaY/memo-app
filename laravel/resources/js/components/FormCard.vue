@@ -2,6 +2,8 @@
 
 import PlusSvg from "./svgs/PlusSvg.vue";
 import TextareaForm from "./TextareaForm.vue";
+
+const emit = defineEmits(['submit']);
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import TextareaForm from "./TextareaForm.vue";
             <h3 class="text-2xl font-bold">新規メモ</h3>
         </div>
         <div class="p-2">
-            <TextareaForm class="mt-4"/>
+            <TextareaForm @submit="$emit('submit',$event)" class="mt-4"/>
         </div>
     </div>
 </template>
