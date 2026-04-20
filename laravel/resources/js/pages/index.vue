@@ -53,6 +53,17 @@ const saveMemo = async (text) => {
         console.error('保存に失敗', error);
     }
 }
+
+const deleteMemo = async (id) => {
+    try {
+        const response = await axios.delete(`/api/memos/${id}`);
+
+        await fetchMemos();
+        console.log('削除成功', response.data);
+    } catch (error) {
+        console.error('削除失敗', error);
+    }
+}
 </script>
 
 <template>
@@ -60,7 +71,7 @@ const saveMemo = async (text) => {
     <div class="p-8 bg-primary-50 min-h-screen">
         <div class="mx-auto max-w-sm md:max-w-xl lg:max-w-3xl">
             <FormCard @submit="saveMemo" />
-            <MemoDisplay class="mt-8" :memos="memos"/>
+            <MemoDisplay @delete="deleteMemo" class="mt-8" :memos="memos"/>
         </div>
     </div>
 
