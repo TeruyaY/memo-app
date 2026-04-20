@@ -2,10 +2,23 @@
 import PlusSvg from "./svgs/PlusSvg.vue";
 
 import {ref, computed} from 'vue';
+import axios from 'axios';
 
 const text = ref('');
 
-const empty = computed(() => !text.value.trim())
+const empty = computed(() => !text.value.trim());
+
+const saveMemo = async () => {
+    try {
+        const response = await axios.post('/api/memos', {
+            content: text.value
+        });
+
+        console.log('保存成功', response.data);
+    } catch (error) {
+        console.error('保存に失敗', error);
+    }
+}
 </script>
 
 <template>
@@ -18,8 +31,9 @@ const empty = computed(() => !text.value.trim())
             rows="4"
             placeholder="メモを入力してください"
         ></textarea>
-        <button :disabled="empty"
-                class="mt-4 p-2 disabled:opacity-50 rounded-xl
+        <button @click="saveMemo"
+            :disabled="empty"
+            class="mt-4 p-2 disabled:opacity-50 rounded-xl
                 bg-gradient-to-r from-primary-500 to-primary-600
                 flex justify-center items-center gap-x-2 text-white transition-opcaity duration-300 ease-in-out">
                 <PlusSvg class="w-6 h-6"/>
