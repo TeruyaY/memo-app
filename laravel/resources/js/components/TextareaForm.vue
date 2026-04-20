@@ -8,18 +8,13 @@ const text = ref('');
 
 const empty = computed(() => !text.value.trim());
 
-const saveMemo = async () => {
-    try {
-        const response = await axios.post('/api/memos', {
-            content: text.value
-        });
+const emit = defineEmits(['submit']);
 
-        console.log('保存成功', response.data);
-        text.value ='';
-    } catch (error) {
-        console.error('保存に失敗', error);
-    }
+const submit = async () => {
+    await emit('submit', text.value)
+    text.value='';
 }
+
 </script>
 
 <template>
@@ -32,7 +27,7 @@ const saveMemo = async () => {
             rows="4"
             placeholder="メモを入力してください"
         ></textarea>
-        <button @click="saveMemo"
+        <button @click="submit"
             :disabled="empty"
             class="mt-4 p-2 disabled:opacity-50 rounded-xl
                 bg-gradient-to-r from-primary-500 to-primary-600

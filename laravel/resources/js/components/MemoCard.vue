@@ -4,11 +4,7 @@ import PlusSvg from "@/components/svgs/PlusSvg.vue";
 
 import { ref } from 'vue';
 
-interface Memo {
-    id: number;
-    content: string;
-    created_at: string;
-}
+import type { Memo } from './MemoDisplay.vue';
 
 const props = defineProps<{
     memo: Memo
