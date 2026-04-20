@@ -12,6 +12,11 @@ const props = defineProps<{
 
 const isHovered = ref(false);
 
+const emit = defineEmits(['delete']);
+
+const deleteMemo = async(id) => {
+    await emit('delete', id)
+}
 </script>
 
 <template>
@@ -23,7 +28,7 @@ const isHovered = ref(false);
             <p class="text-lg text-gray-500">{{ memo.created_at }}</p>
         </div>
 
-        <TrashSvg v-if="isHovered" class="w-8 h-8 text-red-500"/>
+        <TrashSvg @click="deleteMemo(memo.id)" v-if="isHovered" class="w-[24px] h-[24px] text-red-500"/>
     </div>
 
 </template>

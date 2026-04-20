@@ -16,6 +16,8 @@ const props = defineProps<{
     memos: Memo[]
 }>();
 
+const emit = defineEmits(['delete']);
+
 </script>
 
 <template>
@@ -31,7 +33,7 @@ const props = defineProps<{
         </div>
 
 
-        <MemoCard class="mt-4" v-for="memo in memos" :key="memo.id" :memo="memo"/>
+        <MemoCard @delete="$emit('delete', $event)" class="mt-4" v-for="memo in memos" :key="memo.id" :memo="memo"/>
     </div>
 </template>
 
