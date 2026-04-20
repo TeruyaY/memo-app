@@ -22,10 +22,16 @@ const mockMemos = [
 
 <template>
     <div class="w-full flex flex-col">
-        <div class="flex items-center gap-x-2 mt-2">
-            <DocumentSvg class="w-8 h-8 text-primary-500"/>
-            <h2 class="text-2xl font-bold">保存されたメモ</h2>
+        <div class="flex items-center justify-between  mt-2">
+            <div class="flex items-center gap-x-2">
+                <DocumentSvg class="w-8 h-8 text-primary-500"/>
+                <h2 class="text-2xl font-bold">保存されたメモ</h2>
+            </div>
+            <div class="bg-primary-100 rounded-full py-1 px-[12px] text-gray-600">
+                <p>{{ mockMemos.length }}件</p>
+            </div>
         </div>
+
 
         <MemoCard class="mt-4" v-for="memo in mockMemos" :key="memo.id" :memo="memo"/>
     </div>
