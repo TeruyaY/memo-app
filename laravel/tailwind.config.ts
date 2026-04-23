@@ -31,8 +31,21 @@ const config: Config = {
           500: "#EF4444",
           600: "#DC2626",
         },
+        orange: {
+          500: "#F59E0B",
+        },
         yellow: {
           50: "#FFFBEB",
+          500: "#FACC15",
+        },
+        blue: {
+          500: "#3B82F6",
+        },
+        green: {
+          500: "#10B981",
+        },
+        purple: {
+          500: "#8B5CF6",
         },
       },
     },

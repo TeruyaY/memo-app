@@ -10,6 +10,7 @@ class MemoController extends Controller
 
         $validated = $request->validate([
             'content' => 'required|string|max:10000',
+            'tag' => 'required|in:none,red,green,blue,yellow,orange,purple',
         ]);
 
         $memo = Memo::create($validated);
