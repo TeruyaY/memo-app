@@ -35,7 +35,7 @@ const deleteMemo = async(id) => {
         shadow hover:shadow-lg transition duration-300 border-[1px] border-primary-100
         overflow-hidden relative">
 
-        <div v-if="memo.tag!='none'"class="absolute top-0 right-0 border-t-[50px] border-l-[50px] 500 border-l-transparent"
+        <div v-if="memo.tag!='none'" class="absolute top-0 right-0 border-t-[50px] border-l-[50px] 500 border-l-transparent"
           :class="colorClassMap[memo.tag]"></div>
 
         <div class="flex flex-col">
