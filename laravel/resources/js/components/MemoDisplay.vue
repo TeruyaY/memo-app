@@ -9,6 +9,7 @@ import axios from "axios";
 export interface Memo {
     id: number;
     content: string;
+    tag: string;
     created_at: string;
 }
 

@@ -10,11 +10,26 @@ const empty = computed(() => !text.value.trim());
 
 const emit = defineEmits(['submit']);
 
-const submit = async () => {
-    await emit('submit', text.value)
-    text.value='';
+const tag = ref('none');
+
+const selectTag = (color) => {
+  tag.value = color;
 }
 
+const submit = async () => {
+    await emit('submit', { content: text.value, tag: tag.value })
+    text.value='';
+    tag.value='none'
+}
+
+const colors = [
+  { name: 'red', hex: '#EF4444' },
+  { name: 'blue', hex: '#3B82F6' },
+  { name: 'green', hex: '#10B981' },
+  { name: 'yellow', hex: '#FACC15' },
+  { name: 'orange', hex: '#F59E0B' },
+  { name: 'purple', hex: '#8B5CF6' },
+];
 </script>
 
 <template>
@@ -27,6 +42,24 @@ const submit = async () => {
             rows="4"
             placeholder="メモを入力してください"
         ></textarea>
+
+        <div class="grid grid-cols-2 mt-4 p-2 w-full border:2px">
+          <button @click="selectTag('none')"
+              class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
+                flex justify-left items-center gap-x-2 border-2"
+              :class="tag==='none' ? 'border-primary-500' : 'border-gray'">
+            <span class="block rounded-full w-6 h-6"></span>
+            none</button>
+          <button v-for="color in colors" :key="color.name"
+              @click="selectTag(color.name)"
+              class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
+                flex justify-left items-center gap-x-2 border-2"
+              :class="tag===color.name ? 'border-primary-500' : 'border-gray'">
+            <span class="block rounded-full w-6 h-6"
+                :style="{ backgroundColor: color.hex }"></span>
+            {{ color.name }}</button>
+        </div>
+
         <button @click="submit"
             :disabled="empty"
             class="mt-4 p-2 disabled:opacity-50 rounded-xl
@@ -40,5 +73,4 @@ const submit = async () => {
 </template>
 
 <style scoped>
-
 </style>

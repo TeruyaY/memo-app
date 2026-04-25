@@ -41,11 +41,9 @@ onMounted(() => {
     fetchMemos();
 })
 
-const saveMemo = async (text) => {
+const saveMemo = async (data) => {
     try {
-        const response = await axios.post('/api/memos', {
-            content: text
-        });
+        const response = await axios.post('/api/memos', data);
 
         await fetchMemos();
         console.log('保存成功', response.data);
