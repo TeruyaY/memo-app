@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Memo extends Model
 {
-    protected $fillable = ['content', 'tag'];
+    protected $fillable = [
+        'content',
+        'tag_id'
+    ];
+
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class);
+    }
 }

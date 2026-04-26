@@ -10,7 +10,7 @@ class MemoController extends Controller
 
         $validated = $request->validate([
             'content' => 'required|string|max:10000',
-            'tag' => 'required|in:none,red,green,blue,yellow,orange,purple',
+            'tag_id' => 'required|integer|exists:tags,id',
         ]);
 
         $memo = Memo::create($validated);
@@ -19,7 +19,7 @@ class MemoController extends Controller
     }
 
     public function index(){
-        $memos = Memo::all();
+        $memos = Memo::with('tag')->get();
 
         return response()->json($memos, 200);
     }

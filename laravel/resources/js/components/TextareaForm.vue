@@ -10,26 +10,32 @@ const empty = computed(() => !text.value.trim());
 
 const emit = defineEmits(['submit']);
 
-const tag = ref('none');
+const selectedTag = ref(1);
 
-const selectTag = (color) => {
-  tag.value = color;
+const selectTag = (id) => {
+  selectedTag.value = id;
 }
 
 const submit = async () => {
-    await emit('submit', { content: text.value, tag: tag.value })
+    await emit('submit', { content: text.value, tag_id: selectedTag.value })
     text.value='';
-    tag.value='none'
+    selectedTag.value=1;
 }
 
-const colors = [
-  { name: 'red', hex: '#EF4444' },
-  { name: 'blue', hex: '#3B82F6' },
-  { name: 'green', hex: '#10B981' },
-  { name: 'yellow', hex: '#FACC15' },
-  { name: 'orange', hex: '#F59E0B' },
-  { name: 'purple', hex: '#8B5CF6' },
-];
+// const colors = [
+//   { name: 'red', hex: '#EF4444' },
+//   { name: 'blue', hex: '#3B82F6' },
+//   { name: 'green', hex: '#10B981' },
+//   { name: 'yellow', hex: '#FACC15' },
+//   { name: 'orange', hex: '#F59E0B' },
+//   { name: 'purple', hex: '#8B5CF6' },
+// ];
+
+import type { Tag } from '../pages/index.vue';
+
+const props = defineProps<{
+    tags: Tag[]
+}>();
 </script>
 
 <template>
@@ -44,20 +50,14 @@ const colors = [
         ></textarea>
 
         <div class="grid grid-cols-2 mt-4 p-2 w-full border:2px">
-          <button @click="selectTag('none')"
+          <button v-for="tag in tags" :key="tag.name"
+              @click="selectTag(tag.id)"
               class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
                 flex justify-left items-center gap-x-2 border-2"
-              :class="tag==='none' ? 'border-primary-500' : 'border-gray'">
-            <span class="block rounded-full w-6 h-6"></span>
-            none</button>
-          <button v-for="color in colors" :key="color.name"
-              @click="selectTag(color.name)"
-              class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
-                flex justify-left items-center gap-x-2 border-2"
-              :class="tag===color.name ? 'border-primary-500' : 'border-gray'">
+              :class="selectedTag===tag.id ? 'border-primary-500' : 'border-gray'">
             <span class="block rounded-full w-6 h-6"
-                :style="{ backgroundColor: color.hex }"></span>
-            {{ color.name }}</button>
+                :style="{ backgroundColor: tag.hex }"></span>
+            {{ tag.name }}</button>
         </div>
 
         <button @click="submit"

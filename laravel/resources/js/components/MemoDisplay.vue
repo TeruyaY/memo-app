@@ -6,10 +6,12 @@ import MemoCard from "@/components/MemoCard.vue";
 import { onMounted, ref } from 'vue';
 import axios from "axios";
 
+import type { Tag } from '../pages/index.vue';
+
 export interface Memo {
     id: number;
     content: string;
-    tag: string;
+    tag: Tag;
     created_at: string;
 }
 
