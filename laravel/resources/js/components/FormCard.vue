@@ -3,6 +3,13 @@
 import PlusSvg from "./svgs/PlusSvg.vue";
 import TextareaForm from "./TextareaForm.vue";
 
+import type { Tag } from '../pages/index.vue';
+
+
+const props = defineProps<{
+    tags: Tag[]
+}>();
+
 const emit = defineEmits(['submit']);
 </script>
 
@@ -13,7 +20,7 @@ const emit = defineEmits(['submit']);
             <h3 class="text-2xl font-bold">新規メモ</h3>
         </div>
         <div class="p-2">
-            <TextareaForm @submit="$emit('submit',$event)" class="mt-4"/>
+            <TextareaForm @submit="$emit('submit',$event)" :tags="tags" class="mt-4"/>
         </div>
     </div>
 </template>

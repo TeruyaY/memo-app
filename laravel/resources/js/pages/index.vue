@@ -8,8 +8,15 @@ import MemoDisplay from "../components/MemoDisplay.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
 
+export interface Tag {
+    id: number;
+    color: string;
+    name: string;
+    hex: string;
+}
 
 const memos = ref([]);
+const tags = ref([]);
 
 // const mockMemos = [
 //     {
@@ -30,6 +37,7 @@ const fetchMemos = async  () => {
     try {
         const response = await axios.get('/api/memos');
 
+
         console.log('読み込み成功', response.data);
         memos.value = response.data;
     } catch (error) {
@@ -39,6 +47,7 @@ const fetchMemos = async  () => {
 
 onMounted(() => {
     fetchMemos();
+    fetchTags();
 })
 
 const saveMemo = async (data) => {
@@ -62,13 +71,24 @@ const deleteMemo = async (id) => {
         console.error('削除失敗', error);
     }
 }
+
+const fetchTags = async  () => {
+    try {
+        const response = await axios.get('/api/tags');
+
+        console.log('読み込み成功', response.data);
+        tags.value = response.data;
+    } catch (error) {
+        console.error('読み込み失敗', error);
+    }
+}
 </script>
 
 <template>
     <Header class="relative z-10" />
     <div class="p-8 bg-primary-50 min-h-screen">
         <div class="mx-auto max-w-sm md:max-w-xl lg:max-w-3xl">
-            <FormCard @submit="saveMemo" />
+            <FormCard @submit="saveMemo" :tags="tags"/>
             <MemoDisplay @delete="deleteMemo" class="mt-8" :memos="memos"/>
         </div>
     </div>
