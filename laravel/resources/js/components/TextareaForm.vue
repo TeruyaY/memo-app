@@ -10,7 +10,9 @@ const empty = computed(() => !text.value.trim());
 
 const emit = defineEmits(['submit']);
 
-const selectedTag = ref(1);
+const DEFAULT_TAG_ID = 1;
+
+const selectedTag = ref(DEFAULT_TAG_ID);
 
 const selectTag = (id) => {
   selectedTag.value = id;
@@ -53,9 +55,9 @@ const props = defineProps<{
           <button v-for="tag in tags" :key="tag.name"
               @click="selectTag(tag.id)"
               class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
-                flex justify-left items-center gap-x-2 border-2"
+                flex justify-left items-center gap-x-2 border-[1.5px]"
               :class="selectedTag===tag.id ? 'border-primary-500' : 'border-gray'">
-            <span class="block rounded-full w-6 h-6"
+            <span class="block rounded-full w-4 h-4"
                 :style="{ backgroundColor: tag.hex }"></span>
             {{ tag.name }}</button>
         </div>

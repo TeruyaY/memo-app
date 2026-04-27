@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import Welcome from "../features/Welcome.vue";
 import Header from "../components/layouts/Header.vue";
+import Sidebar from "../components/layouts/Sidebar.vue";
 import FeatureList from "@/features/FeatureList.vue";
 import WelcomeMessage from "@/components/WelcomeMessage.vue";
 import FormCard from "../components/FormCard.vue";
 import MemoDisplay from "../components/MemoDisplay.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import axios from "axios";
 
 export interface Tag {
@@ -18,20 +19,17 @@ export interface Tag {
 const memos = ref([]);
 const tags = ref([]);
 
-// const mockMemos = [
-//     {
-//         id: 1,
-//         title: "スーパーで買い物",
-//         content: "牛乳、たまご、鶏肉を買う",
-//         created_at: "2026-04-20 10:00"
-//     },
-//     {
-//         id: 2,
-//         title: "Laravelの勉強",
-//         content: "axiosの使い方をノートにまとめる",
-//         created_at: "2026-04-20 12:00"
-//     }
-// ];
+const DEFAULT_FILTER_TAG = 0;
+const filterTag = ref(DEFAULT_FILTER_TAG);
+const filtered_memos = computed(() => {
+    if (filterTag.value == 0) {
+        return memos.value;
+    } else {
+        return memos.value.filter((memo) => {
+            return memo.tag?.id == filterTag.value;
+        });
+    }
+})
 
 const fetchMemos = async  () => {
     try {
@@ -82,15 +80,32 @@ const fetchTags = async  () => {
         console.error('読み込み失敗', error);
     }
 }
+
+const filterMemos = (id) => {
+    filterTag.value = id;
+}
+
+const isSideBarOpen = ref(false);
+const changeSidebar = () => {
+    isSideBarOpen.value = !isSideBarOpen.value;
+}
+
+const isFormOpen = ref(true);
+const changeForm = () => {
+    isFormOpen.value = !isFormOpen.value;
+}
 </script>
 
 <template>
-    <Header class="relative z-10" />
+    <Header @open="changeSidebar" class="relative z-10" />
     <div class="p-8 bg-primary-50 min-h-screen">
         <div class="mx-auto max-w-sm md:max-w-xl lg:max-w-3xl">
-            <FormCard @submit="saveMemo" :tags="tags"/>
-            <MemoDisplay @delete="deleteMemo" class="mt-8" :memos="memos"/>
+            <FormCard v-if="isFormOpen" @submit="saveMemo" :tags="tags"/>
+            <MemoDisplay @delete="deleteMemo" class="mt-8" :memos="filtered_memos"/>
         </div>
     </div>
+
+    <Sidebar @filter="filterMemos" @closeSidebar="changeSidebar" @changeForm="changeForm"
+             :openForm="isFormOpen" :openSidebar="isSideBarOpen" :filterTag="filterTag" :tags="tags"/>
 
 </template>
