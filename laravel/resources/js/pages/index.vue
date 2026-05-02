@@ -23,11 +23,10 @@ const DEFAULT_FILTER_TAG = 0;
 const filterTag = ref(DEFAULT_FILTER_TAG);
 const filtered_memos = computed(() => {
     if (filterTag.value == 0) {
-        return memos.value;
+        return [...memos.value].reverse();
     } else {
-        return memos.value.filter((memo) => {
-            return memo.tag?.id == filterTag.value;
-        });
+        let unordered_memos = memos.value.filter((memo) => {return memo.tag?.id == filterTag.value;});
+        return unordered_memos.reverse();
     }
 })
 
@@ -85,27 +84,14 @@ const filterMemos = (id) => {
     filterTag.value = id;
 }
 
-const isSideBarOpen = ref(false);
-const changeSidebar = () => {
-    isSideBarOpen.value = !isSideBarOpen.value;
-}
-
-const isFormOpen = ref(true);
-const changeForm = () => {
-    isFormOpen.value = !isFormOpen.value;
-}
 </script>
 
 <template>
-    <Header @open="changeSidebar" class="relative z-10" />
-    <div class="p-8 bg-primary-50 min-h-screen">
-        <div class="mx-auto max-w-sm md:max-w-xl lg:max-w-3xl">
-            <FormCard v-if="isFormOpen" @submit="saveMemo" :tags="tags"/>
-            <MemoDisplay @delete="deleteMemo" class="mt-8" :memos="filtered_memos"/>
-        </div>
-    </div>
 
-    <Sidebar @filter="filterMemos" @closeSidebar="changeSidebar" @changeForm="changeForm"
-             :openForm="isFormOpen" :openSidebar="isSideBarOpen" :filterTag="filterTag" :tags="tags"/>
+        <div class="mx-auto max-w-sm md:max-w-xl lg:max-w-3xl">
+            <FormCard @submit="saveMemo" :tags="tags"/>
+            <MemoDisplay @delete="deleteMemo" @filter="filterMemos" :filterTag="filterTag" :tags="tags" class="mt-8" :filtered_memos="filtered_memos" :memos="memos"/>
+        </div>
+
 
 </template>
