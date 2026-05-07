@@ -9,3 +9,4 @@ Route::get('memos', [MemoController::class, 'index'])->name('memos.index');
 Route::delete('memos/{id}', [MemoController::class, 'destroy'])->name('memos.destroy');
 
 Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+
