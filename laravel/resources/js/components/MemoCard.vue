@@ -4,8 +4,11 @@ import PlusSvg from "@/components/svgs/PlusSvg.vue";
 
 import { ref } from 'vue';
 
-import type { Memo } from './MemoDisplay.vue';
-import type { Tag } from '../pages/index.vue';
+import type { Memo } from '../types/index.ts';
+
+import { useMemoStore } from "../stores/memoStore";
+
+const memoStore = useMemoStore();
 
 const props = defineProps<{
     memo: Memo
@@ -21,12 +24,6 @@ const colorClassMap = {
   orange: 'border-t-orange-500',
   purple: 'border-t-purple-500',
 };
-
-const emit = defineEmits(['delete']);
-
-const deleteMemo = async(id) => {
-    await emit('delete', id)
-}
 </script>
 
 <template>
@@ -44,7 +41,7 @@ const deleteMemo = async(id) => {
             <p class="text-lg text-gray-500">{{ memo.created_at }}</p>
         </div>
 
-        <TrashSvg @click="deleteMemo(memo.id)" v-if="isHovered" class="w-[24px] h-[24px] text-red-500"/>
+        <TrashSvg @click="memoStore.deleteMemo(memo.id)" v-if="isHovered" class="w-[24px] h-[24px] text-red-500"/>
     </div>
 
 </template>

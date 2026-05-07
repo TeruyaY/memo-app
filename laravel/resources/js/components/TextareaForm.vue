@@ -1,43 +1,34 @@
 <script setup lang="ts">
 import PlusSvg from "./svgs/PlusSvg.vue";
 
-import {ref, computed} from 'vue';
+import {ref, computed, onMounted} from 'vue';
 import axios from 'axios';
 
-const text = ref('');
 
-const empty = computed(() => !text.value.trim());
 
-const emit = defineEmits(['submit']);
+import { useMemoStore } from "../stores/memoStore";
+import { useTagStore } from "../stores/tagStore";
 
-const DEFAULT_TAG_ID = 1;
+const memoStore = useMemoStore();
+const tagStore = useTagStore();
 
-const selectedTag = ref(DEFAULT_TAG_ID);
 
-const selectTag = (id) => {
-  selectedTag.value = id;
-}
+import { useMemoForm } from "../composables/useMemoForms.ts";
+const { text, selectedTag, isEmpty, resetForm, selectTag } = useMemoForm();
+
+onMounted(() => {
+    tagStore.fetchTags();
+})
 
 const submit = async () => {
-    await emit('submit', { content: text.value, tag_id: selectedTag.value })
-    text.value='';
-    selectedTag.value=1;
+    const success = await memoStore.saveMemo({
+        content: text.value,
+        tag_id: selectedTag.value
+    });
+
+    if (success) resetForm();
 }
 
-// const colors = [
-//   { name: 'red', hex: '#EF4444' },
-//   { name: 'blue', hex: '#3B82F6' },
-//   { name: 'green', hex: '#10B981' },
-//   { name: 'yellow', hex: '#FACC15' },
-//   { name: 'orange', hex: '#F59E0B' },
-//   { name: 'purple', hex: '#8B5CF6' },
-// ];
-
-import type { Tag } from '../pages/index.vue';
-
-const props = defineProps<{
-    tags: Tag[]
-}>();
 </script>
 
 <template>
@@ -52,7 +43,7 @@ const props = defineProps<{
         ></textarea>
 
         <div class="grid grid-cols-2 mt-4 p-2 w-full border:2px">
-          <button v-for="tag in tags" :key="tag.name"
+          <button v-for="tag in tagStore.tags" :key="tag.name"
               @click="selectTag(tag.id)"
               class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
                 flex justify-left items-center gap-x-2 border-[1.5px]"
@@ -63,7 +54,7 @@ const props = defineProps<{
         </div>
 
         <button @click="submit"
-            :disabled="empty"
+            :disabled="isEmpty"
             class="mt-4 p-2 disabled:opacity-50 rounded-xl
                 bg-gradient-to-r from-primary-500 to-primary-600
                 flex justify-center items-center gap-x-2 text-white transition-opcaity duration-300 ease-in-out">

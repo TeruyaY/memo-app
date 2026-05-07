@@ -21,6 +21,7 @@ class MemoController extends Controller
     public function index(){
         $memos = Memo::with('tag')->get();
 
+
         return response()->json($memos, 200);
     }
 
