@@ -6,13 +6,12 @@ export const useMemoStore = defineStore('memo', () => {
 
     const memos = ref([]);
 
-    const DEFAULT_FILTER_TAG = 0;
-    const filterTag = ref(DEFAULT_FILTER_TAG);
+    const filterTagIds = ref([]);
     const filtered_memos = computed(() => {
-        if (filterTag.value == 0) {
+        if (filterTagIds.value.length == 0) {
             return [...memos.value].reverse();
         } else {
-            let unordered_memos = memos.value.filter((memo) => {return memo.tag?.id == filterTag.value;});
+            let unordered_memos = memos.value.filter((memo) => { return memo.tags.some(tag => filterTagIds.value.includes(tag.id)) });
             return unordered_memos.reverse();
         }
     })
@@ -54,14 +53,24 @@ export const useMemoStore = defineStore('memo', () => {
     }
 
     const changeFilterTag = (id) => {
-        filterTag.value = id;
+        if (filterTagIds.value.includes(id)) {
+            filterTagIds.value = filterTagIds.value.filter(item => item !== id);
+        } else {
+            filterTagIds.value.push(id);
+        }
+
+    }
+
+    const emptyFilterTag = () => {
+        filterTagIds.value = [];
     }
 
     return {
         memos,
         filtered_memos,
-        filterTag,
+        filterTagIds,
         changeFilterTag,
+        emptyFilterTag,
         fetchMemos,
         saveMemo,
         deleteMemo,

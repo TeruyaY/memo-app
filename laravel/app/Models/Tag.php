@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'user_id'];
 
     public function memos()
     {
-        return $this->hasMany(Memo::class);
+        return $this->belongsToMany(Memo::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

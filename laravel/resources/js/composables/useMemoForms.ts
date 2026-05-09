@@ -6,16 +6,24 @@ import axios from "axios";
 export function useMemoForm() {
 
     const text = ref('');
-    const selectedTag = ref(1);
+    const selectedTag = ref([]);
     const isEmpty = computed(() => !text.value.trim());
     const resetForm = () => {
         text.value = '';
-        selectedTag.value = 1;
+        selectedTag.value = [];
     };
 
     const selectTag = (id) => {
-        selectedTag.value = id;
+        if ( selectedTag.value.includes(id) ) {
+            selectedTag.value = selectedTag.value.filter(item => item !== id);
+        } else {
+            selectedTag.value.push(id);
+        }
     }
 
-    return { text, selectedTag, isEmpty, resetForm, selectTag };
+    const emptyTag = () => {
+        selectedTag.value = [];
+    }
+
+    return { text, selectedTag, isEmpty, resetForm, selectTag, emptyTag };
 }

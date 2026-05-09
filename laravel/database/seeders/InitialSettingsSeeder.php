@@ -14,13 +14,12 @@ class InitialSettingsSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            ['color' => 'none', 'name' => 'none', 'hex' => '#FFFFFF'],
-            ['color' => 'red', 'name' => 'red', 'hex' => '#EF4444'],
-            ['color' => 'blue', 'name' => 'blue', 'hex' => '#3B82F6'],
-            ['color' => 'green', 'name' => 'green', 'hex' => '#10B981'],
-            ['color' => 'yellow', 'name' => 'yellow', 'hex' => '#FACC15'],
-            ['color' => 'orange', 'name' => 'orange', 'hex' => '#F59E0B'],
-            ['color' => 'purple', 'name' => 'purple', 'hex' => '#8B5CF6'],
+            ['color' => 'red', 'name' => 'red', 'hex' => '#EF4444', 'user_id' => 1],
+            ['color' => 'blue', 'name' => 'blue', 'hex' => '#3B82F6', 'user_id' => 1],
+            ['color' => 'green', 'name' => 'green', 'hex' => '#10B981', 'user_id' => 1],
+            ['color' => 'yellow', 'name' => 'yellow', 'hex' => '#FACC15', 'user_id' => 1],
+            ['color' => 'orange', 'name' => 'orange', 'hex' => '#F59E0B', 'user_id' => 1],
+            ['color' => 'purple', 'name' => 'purple', 'hex' => '#8B5CF6', 'user_id' => 1],
         ];
 
 
