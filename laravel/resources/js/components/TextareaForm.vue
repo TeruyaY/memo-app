@@ -14,7 +14,7 @@ const tagStore = useTagStore();
 
 
 import { useMemoForm } from "../composables/useMemoForms.ts";
-const { text, selectedTag, isEmpty, resetForm, selectTag } = useMemoForm();
+const { text, selectedTag, isEmpty, resetForm, selectTag, emptyTag } = useMemoForm();
 
 onMounted(() => {
     tagStore.fetchTags();
@@ -23,7 +23,7 @@ onMounted(() => {
 const submit = async () => {
     const success = await memoStore.saveMemo({
         content: text.value,
-        tag_id: selectedTag.value
+        tag_ids: selectedTag.value
     });
 
     if (success) resetForm();
@@ -43,14 +43,21 @@ const submit = async () => {
         ></textarea>
 
         <div class="grid grid-cols-2 mt-4 p-2 w-full border:2px">
-          <button v-for="tag in tagStore.tags" :key="tag.name"
-              @click="selectTag(tag.id)"
-              class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
+            <button
+                    @click="emptyTag()"
+                    class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
                 flex justify-left items-center gap-x-2 border-[1.5px]"
-              :class="selectedTag===tag.id ? 'border-primary-500' : 'border-gray'">
-            <span class="block rounded-full w-4 h-4"
-                :style="{ backgroundColor: tag.hex }"></span>
-            {{ tag.name }}</button>
+                    :class="selectedTag.length === 0 ? 'border-primary-500' : 'border-gray'">
+                <span class="block rounded-full w-4 h-4"></span>
+                none</button>
+            <button v-for="tag in tagStore.tags" :key="tag.name"
+                    @click="selectTag(tag.id)"
+                    class="p-2 m-1 rounded-xl max-h-10 transition-all duration-100
+                      flex justify-left items-center gap-x-2 border-[1.5px]"
+                    :class="selectedTag.includes(tag.id) ? 'border-primary-500' : 'border-gray'">
+                <span class="block rounded-full w-4 h-4"
+                    :style="{ backgroundColor: tag.hex }"></span>
+                {{ tag.name }}</button>
         </div>
 
         <button @click="submit"

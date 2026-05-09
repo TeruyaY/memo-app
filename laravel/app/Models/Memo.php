@@ -8,11 +8,16 @@ class Memo extends Model
 {
     protected $fillable = [
         'content',
-        'tag_id'
+        'user_id',
     ];
 
-    public function tag()
+    public function user()
     {
-        return $this->belongsTo(Tag::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

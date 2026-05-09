@@ -16,14 +16,6 @@ const props = defineProps<{
 
 const isHovered = ref(false);
 
-const colorClassMap = {
-  red: 'border-t-red-500',
-  blue: 'border-t-blue-500',
-  green: 'border-t-green-500',
-  yellow: 'border-t-yellow-500',
-  orange: 'border-t-orange-500',
-  purple: 'border-t-purple-500',
-};
 </script>
 
 <template>
@@ -33,8 +25,16 @@ const colorClassMap = {
         shadow hover:shadow-lg transition duration-300 border-[1px] border-primary-100
         overflow-hidden relative">
 
-        <div v-if="memo.tag.color!='none'" class="pointer-events-none absolute top-0 right-0 border-t-[50px] border-l-[50px] 500 border-l-transparent"
-          :class="colorClassMap[memo.tag.color]"></div>
+        <div class="flex absolute top-0 right-0 h-8 overflow-hidden rounded-tr-xl">
+            <div v-for="tag in memo.tags" :key="tag.id"
+                 class="w-0 h-0 mr-2
+            border-l-[12px]
+            border-r-[12px]
+            border-t-[24px]
+            border-b-[6px] border-b-transparent"
+                 :style="{ borderTopColor: tag.hex, borderLeftColor: tag.hex, borderRightColor: tag.hex }"></div>
+
+        </div>
 
         <div class="flex flex-col">
             <h3 class="text-xl mb-2">{{ memo.content }}</h3>

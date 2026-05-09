@@ -35,15 +35,15 @@ onMounted(() => {
         </div>
 
         <button
-            @click="memoStore.changeFilterTag(0)"
+            @click="memoStore.emptyFilterTag()"
             class="group p-2 m-1 mt-4 rounded-xl max-h-10 transition-all duration-300
              flex justify-start items-center gap-x-3 border-2 border-transparent
              hover:bg-primary-500 hover:text-white"
-            :class="memoStore.filterTag === 0 ? 'bg-primary-500 text-white shadow-md' : 'text-slate-500 bg-transparent'"
+            :class="memoStore.filterTagIds.length === 0 ? 'bg-primary-500 text-white shadow-md' : 'text-slate-500 bg-transparent'"
         >
                 <span
                     class="block rounded-full w-2 h-2 shrink-0 transition-colors"
-                    :class="memoStore.filterTag === 0 ? 'bg-white' : 'bg-primary-500 group-hover:bg-white'"
+                    :class="memoStore.filterTagIds.length === 0 ? 'bg-white' : 'bg-primary-500 group-hover:bg-white'"
                 ></span>
             <span class="font-medium text-sm">すべてのメモ</span>
         </button>
@@ -55,22 +55,22 @@ onMounted(() => {
             class="group p-2 m-1 rounded-xl max-h-10 transition-all duration-300
              flex justify-start items-center gap-x-3 border-2 border-transparent
              hover:shadow-md"
-            :class="memoStore.filterTag === tag.id ? 'text-white shadow-md' : 'text-slate-600'"
-            :style="memoStore.filterTag === tag.id
+            :class="memoStore.filterTagIds.includes(tag.id) ? 'text-white shadow-md' : 'text-slate-600'"
+            :style="memoStore.filterTagIds.includes(tag.id)
                 ? { backgroundColor: tag.hex }
                 : { '--hover-bg': tag.hex }"
             @mouseenter="$event.target.style.backgroundColor = tag.hex"
-            @mouseleave="memoStore.filterTag !== tag.id ? $event.target.style.backgroundColor = 'transparent' : ''"
+            @mouseleave="!memoStore.filterTagIds.includes(tag.id) ? $event.target.style.backgroundColor = 'transparent' : ''"
         >
                 <span
                     class="block rounded-full w-2 h-2 shrink-0 transition-colors duration-300"
-                    :style="{ backgroundColor: memoStore.filterTag === tag.id ? 'white' : tag.hex }"
-                    :class="memoStore.filterTag !== tag.id ? 'group-hover:bg-white' : ''"
+                    :style="{ backgroundColor: memoStore.filterTagIds.includes(tag.id) ? 'white' : tag.hex }"
+                    :class="!memoStore.filterTagIds.includes(tag.id) ? 'group-hover:bg-white' : ''"
                 ></span>
 
             <span
                 class="font-medium text-sm transition-colors duration-300"
-                :class="memoStore.filterTag === tag.id ? 'text-white' : 'group-hover:text-white'"
+                :class="memoStore.filterTagIds.includes(tag.id) ? 'text-white' : 'group-hover:text-white'"
             >{{ tag.name }}</span>
         </button>
 

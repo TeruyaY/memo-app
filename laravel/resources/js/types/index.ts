@@ -8,6 +8,6 @@ export interface Tag {
 export interface Memo {
     id: number;
     content: string;
-    tag: Tag;
+    tags: Tag[];
     created_at: string;
 }

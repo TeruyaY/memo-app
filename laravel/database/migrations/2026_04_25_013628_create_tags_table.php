@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('color');
             $table->text('name');
             $table->text('hex');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         });
     }
 
